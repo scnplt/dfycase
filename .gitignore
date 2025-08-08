@@ -1,0 +1,11 @@
+.idea/
+.gradle/
+.kotlin/
+reports/
+**/build/
+**/release/
+
+local.properties
+*.jks
+**/google-services.json
+/secret.properties
