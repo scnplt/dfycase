@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DFYCase</string>
+
+    <string name="notif_channel_default_id">dfy_default_channel_id</string>
+    <string name="notif_channel_default_name">Genel Bildirimler</string>
+    <string name="notif_channel_default_desc">DFY Genel Bildirim Kanalı</string>
 </resources>
