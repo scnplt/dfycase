@@ -5,7 +5,9 @@ composeBom = "2025.07.00"
 coreKtx = "1.16.0"
 firebaseBom = "34.1.0"
 gmsServices = "4.4.3"
+hilt = "2.56.2"
 kotlin = "2.2.0"
+ksp = "2.2.0-2.0.2"
 lifecycleRuntimeKtx = "2.9.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -27,6 +29,8 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
@@ -34,3 +38,5 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 gms-services = { id = "com.google.gms.google-services", version.ref = "gmsServices" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
