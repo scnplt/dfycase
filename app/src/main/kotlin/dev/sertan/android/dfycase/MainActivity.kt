@@ -18,7 +18,10 @@ import dev.sertan.android.dfycase.ui.screen.home.HomeRoute
 import dev.sertan.android.dfycase.ui.screen.home.HomeScreen
 import dev.sertan.android.dfycase.ui.screen.login.LoginRoute
 import dev.sertan.android.dfycase.ui.screen.login.LoginScreen
+import dev.sertan.android.dfycase.ui.screen.register.RegisterRoute
+import dev.sertan.android.dfycase.ui.screen.register.RegisterScreen
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
+import dev.sertan.android.dfycase.util.navAndPopBackStack
 
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
@@ -51,11 +54,19 @@ internal class MainActivity : ComponentActivity() {
                     composable<LoginRoute> {
                         LoginScreen(
                             onLoginSuccess = {
-                                navController.navigate(HomeRoute) {
-                                    popUpTo(LoginRoute) { inclusive = true }
-                                }
+                                navController.navAndPopBackStack(LoginRoute, HomeRoute)
                             },
-                            onRegisterClicked = { }
+                            onRegisterClicked = { navController.navigate(RegisterRoute) }
+                        )
+                    }
+                    composable<RegisterRoute> {
+                        RegisterScreen(
+                            onNavigateLoginClicked = {
+                                navController.navAndPopBackStack(RegisterRoute, LoginRoute)
+                            },
+                            onRegisterSuccess = {
+                                navController.navAndPopBackStack(RegisterRoute, HomeRoute)
+                            }
                         )
                     }
                     composable<HomeRoute> { HomeScreen() }
