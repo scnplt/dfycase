@@ -1,6 +1,7 @@
 package dev.sertan.android.dfycase.ui.screen.login
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,15 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,76 +26,105 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.sertan.android.dfycase.R
 import dev.sertan.android.dfycase.ui.common.EmailTextField
 import dev.sertan.android.dfycase.ui.common.PasswordTextField
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
+import kotlinx.serialization.Serializable
+
+@Serializable
+internal object LoginRoute
 
 @Composable
-internal fun LoginScreen() {
-    // TODO: LoginScreenContent entrypoint
+internal fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    onRegisterClicked: () -> Unit,
+) {
+    val viewModel = hiltViewModel<LoginViewModel>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.isLoginSuccessful) onLoginSuccess()
+
+    LoginScreen(
+        uiState = uiState,
+        onEmailChanged = viewModel::onEmailInputChanged,
+        onPasswordChanged = viewModel::onPasswordInputChanged,
+        onLoginClicked = viewModel::login,
+        onRegisterClicked = onRegisterClicked
+    )
 }
 
 @Composable
-private fun LoginScreenContent() {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+private fun LoginScreen(
+    uiState: LoginState,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onLoginClicked: () -> Unit,
+    onRegisterClicked: () -> Unit
+) {
+    Scaffold { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    fontSize = 64.sp,
+                    fontWeight = FontWeight.Bold,
+                )
 
+                Spacer(modifier = Modifier.height(32.dp))
 
-    Surface {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.app_name),
-                fontSize = 64.sp,
-                fontWeight = FontWeight.Bold,
-            )
+                EmailTextField(
+                    value = uiState.email,
+                    onValueChange = onEmailChanged,
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = uiState.isValidationActive && !uiState.isEmailValid
+                )
 
-            Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            EmailTextField(
-                value = email,
-                onValueChange = { email = it },
-                modifier = Modifier.fillMaxWidth()
-            )
+                PasswordTextField(
+                    value = uiState.pass,
+                    onValueChange = onPasswordChanged,
+                    imeAction = ImeAction.Done,
+                    keyboardActions = KeyboardActions(onDone = { onLoginClicked() }),
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = uiState.isValidationActive && !uiState.isPasswordValid,
+                    label = stringResource(id = R.string.password)
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            PasswordTextField(
-                value = password,
-                onValueChange = { password = it },
-                imeAction = ImeAction.Done,
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        // TODO: Login işlemi başlat
+                Button(
+                    onClick = onLoginClicked,
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    enabled = !uiState.isLoading
+                ) {
+                    if (uiState.isLoading) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.secondary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    } else {
+                        Text(text = stringResource(R.string.login))
                     }
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
+                }
 
-            Spacer(modifier = Modifier.height(24.dp))
+                HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-            Button(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text(text = stringResource(R.string.login))
+                OutlinedButton(
+                    onClick = onRegisterClicked, modifier = Modifier.fillMaxWidth(0.8f)
+                ) {
+                    Text(text = stringResource(R.string.register))
+                }
             }
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-
-            OutlinedButton(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text(text = stringResource(R.string.register))
-            }
-
         }
     }
 }
@@ -103,5 +132,12 @@ private fun LoginScreenContent() {
 @PreviewLightDark
 @Composable
 private fun PreviewLoginScreen() {
-    DFYCaseTheme { LoginScreenContent() }
+    DFYCaseTheme {
+        LoginScreen(
+            uiState = LoginState(),
+            onEmailChanged = {},
+            onPasswordChanged = {},
+            onLoginClicked = {},
+            onRegisterClicked = {})
+    }
 }

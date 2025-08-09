@@ -1,20 +1,23 @@
 package dev.sertan.android.dfycase
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sertan.android.dfycase.notification.DfyNotificationManager
+import dev.sertan.android.dfycase.ui.screen.home.HomeRoute
+import dev.sertan.android.dfycase.ui.screen.home.HomeScreen
+import dev.sertan.android.dfycase.ui.screen.login.LoginRoute
+import dev.sertan.android.dfycase.ui.screen.login.LoginScreen
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
 
 @AndroidEntryPoint
@@ -29,7 +32,9 @@ internal class MainActivity : ComponentActivity() {
 
     private fun askNotificationPermission() {
         if (DfyNotificationManager.canPostNotification(this)) return
-        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +43,22 @@ internal class MainActivity : ComponentActivity() {
         askNotificationPermission()
         setContent {
             DFYCaseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+                val startDestination =
+                    if (Firebase.auth.currentUser != null) HomeRoute else LoginRoute
+
+                NavHost(navController = navController, startDestination = startDestination) {
+                    composable<LoginRoute> {
+                        LoginScreen(
+                            onLoginSuccess = {
+                                navController.navigate(HomeRoute) {
+                                    popUpTo(LoginRoute) { inclusive = true }
+                                }
+                            },
+                            onRegisterClicked = { }
+                        )
+                    }
+                    composable<HomeRoute> { HomeScreen() }
                 }
             }
         }
@@ -50,21 +66,5 @@ internal class MainActivity : ComponentActivity() {
 
     private fun showNotificationInfoDialog() {
         // TODO: Bildirim izni gerektiğini kullanıcıya bildir.
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DFYCaseTheme {
-        Greeting("Android")
     }
 }
