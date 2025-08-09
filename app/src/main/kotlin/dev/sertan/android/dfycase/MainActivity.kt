@@ -69,7 +69,11 @@ internal class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable<HomeRoute> { HomeScreen() }
+                    composable<HomeRoute> {
+                        HomeScreen {
+                            navController.navAndPopBackStack(HomeRoute, LoginRoute)
+                        }
+                    }
                 }
             }
         }

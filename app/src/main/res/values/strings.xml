@@ -10,4 +10,11 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="go_to_login">Go to login</string>
+
+    <string name="no_files_found">No files uploaded yet.</string>
+    <string name="uploaded_files">Uploaded Files</string>
+    <string name="copy_fcm_token">Copy FCM Token</string>
+    <string name="fcm_token_not_found">FCM Token Not Found</string>
+    <string name="fcm_token_copied">FCM Token Copied</string>
+    <string name="logout">Logout</string>
 </resources>
