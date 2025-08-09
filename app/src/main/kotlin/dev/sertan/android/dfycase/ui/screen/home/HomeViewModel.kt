@@ -46,6 +46,10 @@ internal class HomeViewModel @Inject constructor(
             initialValue = HomeState(isLoading = true)
         )
 
+    fun setLoading(isLoading: Boolean) {
+        _uiState.update { it.copy(isLoading = isLoading) }
+    }
+
     fun getFCMToken(): String? = fcmTokenManager.token
 
     fun closeTopMenu() {

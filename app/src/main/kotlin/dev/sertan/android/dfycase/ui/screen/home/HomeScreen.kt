@@ -100,7 +100,10 @@ internal fun HomeScreen(navigateToLogin: () -> Unit) {
 
     HomeScreen(
         uiState = uiState,
-        onUploadFileClicked = { launcher.launch("*/*") },
+        onUploadFileClicked = {
+            launcher.launch("*/*")
+            viewModel.setLoading(true);
+        },
         onCopyFCMTokenClicked = {
             viewModel.getFCMToken()?.let {
                 clipboardManager.setText(AnnotatedString(it))
