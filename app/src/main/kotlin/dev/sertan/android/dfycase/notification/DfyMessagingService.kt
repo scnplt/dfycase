@@ -5,6 +5,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sertan.android.dfycase.domain.repository.UserRepository
+import dev.sertan.android.dfycase.util.FCMTokenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,11 +19,16 @@ internal class DfyMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var tokenManager: FCMTokenManager
+
     private var job: Job? = null
     private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d(TAG, "onMessageReceived: $message")
+        if (tokenManager.token == null) return
         message.notification?.let {
             DfyNotificationManager.sendNotification(
                 context = this,
