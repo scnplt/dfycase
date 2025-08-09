@@ -1,6 +1,5 @@
 package dev.sertan.android.dfycase.ui.common
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,9 +30,10 @@ internal fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions? = null,
-    @StringRes labelId: Int = R.string.password
+    label: String,
 ) {
     val focusManager = LocalFocusManager.current
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -49,7 +49,8 @@ internal fun PasswordTextField(
         },
         trailingIcon = {
             IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                val icon = if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility
+                val icon =
+                    if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility
                 Icon(imageVector = icon, contentDescription = null)
             }
         },
@@ -60,9 +61,10 @@ internal fun PasswordTextField(
         keyboardActions = keyboardActions ?: KeyboardActions(
             onNext = { focusManager.moveFocus(FocusDirection.Down) }
         ),
-        label = { Text(stringResource(labelId)) },
+        label = { Text(label) },
         singleLine = true,
         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        isError = isError,
         modifier = modifier
     )
 }

@@ -21,6 +21,7 @@ internal fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions? = null
 ) {
@@ -44,6 +45,7 @@ internal fun EmailTextField(
         ),
         label = { Text(stringResource(R.string.email_address)) },
         singleLine = true,
+        isError = isError,
         modifier = modifier
     )
 }
