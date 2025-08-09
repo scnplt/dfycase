@@ -120,7 +120,8 @@ private fun RegisterScreenContent(
                     keyboardActions = KeyboardActions(onDone = { onRegisterClicked() }),
                     modifier = Modifier.fillMaxWidth(),
                     isError = !uiState.isPasswordsMatch,
-                    label = "Confirm Password"
+                    label = stringResource(R.string.confirm_password),
+                    errorText = stringResource(R.string.password_mismatch_error)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

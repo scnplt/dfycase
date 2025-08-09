@@ -6,9 +6,14 @@
 
     <string name="email_address">Email Adresi</string>
     <string name="password">Şifre</string>
+    <string name="confirm_password">Şifreyi Onayla</string>
     <string name="login">Giriş</string>
     <string name="register">Kayıt</string>
     <string name="go_to_login">Girişe git</string>
+
+    <string name="email_format_is_incorrect">Lütfen geçerli bir e-posta adresi girin.</string>
+    <string name="password_length_error">Şifre en az 8 karakter uzunluğunda olmalıdır.</string>
+    <string name="password_mismatch_error">Şifreler eşleşmiyor.</string>
 
     <string name="no_files_found">Henüz yüklenen dosya yok.</string>
     <string name="uploaded_files">Yüklenen Dosyalar</string>

@@ -49,6 +49,11 @@ internal fun EmailTextField(
         label = { Text(stringResource(R.string.email_address)) },
         singleLine = true,
         isError = isError,
+        supportingText = {
+            if (isError) {
+                Text(stringResource(R.string.email_format_is_incorrect))
+            }
+        },
         modifier = modifier
     )
 }

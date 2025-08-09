@@ -36,6 +36,7 @@ internal fun PasswordTextField(
     isError: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions? = null,
+    errorText: String = stringResource(R.string.password_length_error),
     label: String,
 ) {
     val focusManager = LocalFocusManager.current
@@ -68,6 +69,7 @@ internal fun PasswordTextField(
         singleLine = true,
         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         isError = isError,
+        supportingText = { if (isError) Text(errorText) },
         modifier = modifier
     )
 }
