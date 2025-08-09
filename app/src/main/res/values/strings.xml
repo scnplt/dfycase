@@ -17,4 +17,6 @@
     <string name="fcm_token_not_found">FCM Token Not Found</string>
     <string name="fcm_token_copied">FCM Token Copied</string>
     <string name="logout">Logout</string>
+
+    <string name="notification_permission_not_granted">Notification permission not granted</string>
 </resources>

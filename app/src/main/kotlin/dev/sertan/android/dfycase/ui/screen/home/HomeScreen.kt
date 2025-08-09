@@ -1,5 +1,7 @@
 package dev.sertan.android.dfycase.ui.screen.home
 
+import android.Manifest
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.sertan.android.dfycase.R
 import dev.sertan.android.dfycase.data.model.File
+import dev.sertan.android.dfycase.notification.DfyNotificationManager
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
 import dev.sertan.android.dfycase.util.showToast
 import kotlinx.serialization.Serializable
@@ -70,6 +73,26 @@ internal fun HomeScreen(navigateToLogin: () -> Unit) {
     )
 
     val clipboardManager = LocalClipboardManager.current
+
+    /**
+     * Launcher for requesting notification permissions.
+     * This is only required for Android 13 (API level 33) and above.
+     * If the permission is not granted, a toast message is shown to the user.
+     * The permission is requested when the Home screen is first launched.
+     */
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            if (isGranted) return@rememberLauncherForActivityResult
+            context.showToast(stringRes = R.string.notification_permission_not_granted)
+        }
+    )
+
+    LaunchedEffect(key1 = Unit) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return@LaunchedEffect
+        if (DfyNotificationManager.canPostNotification(context)) return@LaunchedEffect
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
 
     LaunchedEffect(uiState.isUserLoggedOut) {
         if (uiState.isUserLoggedOut) navigateToLogin()
