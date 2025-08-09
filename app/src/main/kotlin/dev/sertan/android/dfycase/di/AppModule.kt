@@ -17,6 +17,9 @@ import dev.sertan.android.dfycase.domain.repository.UserRepository
 import dev.sertan.android.dfycase.util.FCMTokenManager
 import javax.inject.Singleton
 
+/**
+ * Dependency injection module for providing application-wide dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 internal object AppModule {

@@ -45,9 +45,20 @@ import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
 import dev.sertan.android.dfycase.util.showToast
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents the Home route in the application.
+ */
 @Serializable
 internal object HomeRoute
 
+/**
+ * Composable function that displays the Home screen.
+ * This screen allows users to upload files, copy the FCM token,
+ * and log out of the application.
+ *
+ * @param navigateToLogin A lambda function to navigate to the login screen when the user is logged out.
+ * It is called when the user logs out or when the FCM token is not found.
+ */
 @Composable
 internal fun HomeScreen(navigateToLogin: () -> Unit) {
     val context = LocalContext.current

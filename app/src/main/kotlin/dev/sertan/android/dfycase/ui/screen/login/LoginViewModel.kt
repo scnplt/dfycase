@@ -14,6 +14,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Login screen, managing user login state and input validation.
+ * Handles email and password input changes, validates them, and performs login operations.
+ *
+ * @property userRepository Repository for user operations.
+ * @constructor Creates a LoginViewModel instance.
+ */
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
@@ -47,6 +54,11 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Attempts to log in the user with the provided email and password.
+     * Validates the email and password before proceeding with the login operation.
+     * If the login is successful, updates the UI state to reflect the success.
+     */
     fun login() {
         if (!_uiState.value.isEmailValid || !_uiState.value.isPasswordValid) return
 

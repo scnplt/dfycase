@@ -14,8 +14,18 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.sertan.android.dfycase.R
 
+/**
+ * A utility object for managing notifications in the application.
+ * It provides methods to check notification permissions and send notifications.
+ */
 internal object DfyNotificationManager {
 
+    /**
+     * Checks if the application has permission to post notifications.
+     *
+     * @param context The context of the application.
+     * @return True if the permission is granted, false otherwise.
+     */
     fun canPostNotification(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
@@ -27,6 +37,17 @@ internal object DfyNotificationManager {
         }
     }
 
+    /**
+     * Sends a notification with the specified parameters.
+     *
+     * @param context The context of the application.
+     * @param title The title of the notification.
+     * @param content The content text of the notification.
+     * @param id The unique identifier for the notification.
+     * @param autoCancel Whether the notification should be automatically canceled when clicked.
+     * @param priority The priority level of the notification.
+     * @param icon The resource ID of the icon to be displayed in the notification.
+     */
     fun sendNotification(
         context: Context,
         title: String?,
@@ -56,6 +77,13 @@ internal object DfyNotificationManager {
         manager.notify(id, builder.build())
     }
 
+    /**
+     * Creates a default notification channel if the Android version is Oreo or higher.
+     *
+     * @param context The context of the application.
+     * @param manager The NotificationManager to create the channel.
+     * @param channelId The unique identifier for the notification channel.
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createDefaultNotificationChannel(
         context: Context,

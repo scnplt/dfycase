@@ -23,9 +23,19 @@ import dev.sertan.android.dfycase.ui.screen.register.RegisterScreen
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
 import dev.sertan.android.dfycase.util.navAndPopBackStack
 
+/**
+ * Main activity of the application.
+ * Handles navigation and permission requests.
+ * Uses Jetpack Compose for UI.
+ * Uses Hilt for dependency injection.
+ */
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
 
+    /**
+     * Launcher for requesting notification permissions.
+     * This is used to request the POST_NOTIFICATIONS permission on Android 13 and above.
+     */
     private val requestPermissionLauncher = registerForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         callback = { isGranted ->
@@ -33,6 +43,11 @@ internal class MainActivity : ComponentActivity() {
         }
     )
 
+    /**
+     * Checks if the app has permission to post notifications.
+     * If not, it requests the permission.
+     * This is necessary for Android 13 and above where the permission is required to post notifications
+     */
     private fun askNotificationPermission() {
         if (DfyNotificationManager.canPostNotification(this)) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -79,6 +94,10 @@ internal class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Shows a dialog to inform the user that notification permission is required.
+     * This function is called when the user denies the notification permission request.
+     */
     private fun showNotificationInfoDialog() {
         // TODO: Bildirim izni gerektiğini kullanıcıya bildir.
     }

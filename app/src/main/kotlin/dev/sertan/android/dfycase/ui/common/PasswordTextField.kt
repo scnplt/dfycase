@@ -25,6 +25,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import dev.sertan.android.dfycase.R
 
+/**
+ * A composable function that displays a text field for entering a password.
+ */
 @Composable
 internal fun PasswordTextField(
     value: String,

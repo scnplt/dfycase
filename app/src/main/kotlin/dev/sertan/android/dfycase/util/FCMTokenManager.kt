@@ -10,6 +10,10 @@ import javax.inject.Singleton
 private const val FCM_TOKEN_PREFS = "fcm_token_prefs"
 private const val FCM_TOKEN_KEY = "fcm_token"
 
+/**
+ * A manager for storing and retrieving the FCM token in shared preferences.
+ * This class provides methods to get, set, and delete the FCM token.
+ */
 @Singleton
 internal class FCMTokenManager @Inject constructor(@ApplicationContext context: Context) {
     private val prefs: SharedPreferences =

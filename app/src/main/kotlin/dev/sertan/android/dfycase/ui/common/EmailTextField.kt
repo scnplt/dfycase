@@ -16,6 +16,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import dev.sertan.android.dfycase.R
 
+/**
+ * A composable function that displays a text field for entering an email address.
+ */
 @Composable
 internal fun EmailTextField(
     value: String,

@@ -19,6 +19,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Home screen, managing file uploads and user sessions.
+ * Handles loading files, uploading new files, and user logout.
+ *
+ * @property application The application context for accessing resources.
+ * @property fileRepository Repository for file operations.
+ * @property userRepository Repository for user operations.
+ * @property fcmTokenManager Manager for Firebase Cloud Messaging tokens.
+ * @constructor Creates a HomeViewModel instance.
+ */
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val application: Application,
@@ -49,6 +59,10 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Loads files from the repository and updates the UI state.
+     * This function fetches files asynchronously and updates the UI state with the result.
+     */
     fun loadFiles() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
@@ -67,6 +81,13 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Uploads files to the repository.
+     * This function takes a list of URIs, retrieves their file names,
+     * and uploads them using the file repository.
+     *
+     * @param uris List of URIs representing the files to be uploaded.
+     */
     fun uploadFile(uris: List<Uri>) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
@@ -78,6 +99,15 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Retrieves the file name from a URI.
+     * This function checks if the URI scheme is "content" and queries the content resolver
+     * to get the display name of the file. If the scheme is not "content",
+     * it returns the last path segment or a default name.
+     *
+     * @param uri The URI from which to extract the file name.
+     * @return The file name as a String.
+     */
     private fun getFileNameFromUri(uri: Uri): String {
         if (uri.scheme != "content") return uri.lastPathSegment ?: "temp"
 

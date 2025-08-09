@@ -14,6 +14,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Register screen, managing user registration state and input validation.
+ * Handles email, password, and password confirmation input changes, validates them,
+ * and performs registration operations.
+ *
+ * @property userRepository Repository for user operations.
+ * @constructor Creates a RegisterViewModel instance.
+ */
 @HiltViewModel
 internal class RegisterViewModel @Inject constructor(
     private val userRepository: UserRepository
@@ -56,6 +64,11 @@ internal class RegisterViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Attempts to register the user with the provided email, password, and password confirmation.
+     * Validates the email, password, and password confirmation before proceeding with the registration operation.
+     * If the registration is successful, updates the UI state to reflect the success.
+     */
     fun register() {
         val email = _uiState.value.email
         val pass = _uiState.value.pass

@@ -34,9 +34,21 @@ import dev.sertan.android.dfycase.ui.common.PasswordTextField
 import dev.sertan.android.dfycase.ui.theme.DFYCaseTheme
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents the Login route in the application.
+ */
 @Serializable
 internal object LoginRoute
 
+
+/**
+ * Composable function that displays the Login screen.
+ * This screen allows users to log in with their email and password,
+ * and provides an option to navigate to the registration screen.
+ *
+ * @param onLoginSuccess A lambda function to be called when the login is successful.
+ * @param onRegisterClicked A lambda function to navigate to the registration screen.
+ */
 @Composable
 internal fun LoginScreen(
     onLoginSuccess: () -> Unit,
