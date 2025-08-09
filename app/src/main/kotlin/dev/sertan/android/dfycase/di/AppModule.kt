@@ -10,7 +10,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.sertan.android.dfycase.BuildConfig
+import dev.sertan.android.dfycase.data.repository.FileRepositoryImpl
 import dev.sertan.android.dfycase.data.repository.UserRepositoryImpl
+import dev.sertan.android.dfycase.domain.repository.FileRepository
 import dev.sertan.android.dfycase.domain.repository.UserRepository
 import dev.sertan.android.dfycase.util.FCMTokenManager
 import javax.inject.Singleton
@@ -39,4 +41,11 @@ internal object AppModule {
         firestore: FirebaseFirestore,
         tokenManager: FCMTokenManager
     ): UserRepository = UserRepositoryImpl(auth, firestore, tokenManager)
+
+    @Provides
+    @Singleton
+    fun provideFileRepository(
+        auth: FirebaseAuth,
+        storage: FirebaseStorage
+    ): FileRepository = FileRepositoryImpl(auth, storage)
 }

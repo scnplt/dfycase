@@ -19,5 +19,7 @@ internal class FCMTokenManager @Inject constructor(@ApplicationContext context: 
         get() = prefs.getString(FCM_TOKEN_KEY, null)
         set(value) = prefs.edit { putString(FCM_TOKEN_KEY, value) }
 
-    fun deleteToken() = prefs.edit { remove(FCM_TOKEN_KEY) }
+    fun deleteToken() {
+        prefs.edit { remove(FCM_TOKEN_KEY) }
+    }
 }

@@ -11,4 +11,6 @@ internal interface UserRepository {
 
     suspend fun updateFCMToken(token: String)
 
+    suspend fun logout()
+
 }

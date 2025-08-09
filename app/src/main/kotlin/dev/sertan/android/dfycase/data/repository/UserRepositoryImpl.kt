@@ -10,12 +10,11 @@ import dev.sertan.android.dfycase.util.State
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 
 private const val TAG = "TAG_USER_REPO"
 private const val USERS_COL_NAME = "users"
 
-internal class UserRepositoryImpl @Inject constructor(
+internal class UserRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val fcmTokenManager: FCMTokenManager
@@ -27,10 +26,7 @@ internal class UserRepositoryImpl @Inject constructor(
         emit(State.Loading)
         try {
             auth.signInWithEmailAndPassword(email, pass).await()
-            fcmTokenManager.token?.let {
-                updateFCMToken(it)
-                fcmTokenManager.deleteToken()
-            }
+            fcmTokenManager.token?.let { updateFCMToken(it) }
             emit(State.Success(Unit))
         } catch (e: Exception) {
             emit(State.Error(e.message.toString()))
@@ -45,10 +41,7 @@ internal class UserRepositoryImpl @Inject constructor(
             val userDocument = usersCollection.document(user.uid)
             val userModel = User(id = user.uid, email = email)
             userDocument.set(userModel).await()
-            fcmTokenManager.token?.let {
-                updateFCMToken(it)
-                fcmTokenManager.deleteToken()
-            }
+            fcmTokenManager.token?.let { updateFCMToken(it) }
             emit(State.Success(Unit))
         } catch (e: Exception) {
             emit(State.Error(e.message.toString()))
@@ -70,5 +63,10 @@ internal class UserRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Log.d(TAG, "Error updating FCM token: ${e.message}")
         }
+    }
+
+    override suspend fun logout() {
+        auth.signOut()
+        fcmTokenManager.deleteToken()
     }
 }
