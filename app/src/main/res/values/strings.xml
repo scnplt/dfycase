@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">DFYCase</string>
+    <string name="app_name" translatable="false">DFYCase</string>
 
-    <string name="notif_channel_default_id">dfy_default_channel_id</string>
+    <string name="notif_channel_default_id" translatable="false">dfy_default_channel_id</string>
     <string name="notif_channel_default_name">General Notifications</string>
     <string name="notif_channel_default_desc">DFY General Notification Channel</string>
 
@@ -18,5 +18,5 @@
     <string name="fcm_token_copied">FCM Token Copied</string>
     <string name="logout">Logout</string>
 
-    <string name="notification_permission_not_granted">Notification permission not granted</string>
+    <string name="notification_permission_not_granted">Notification permission not granted!</string>
 </resources>

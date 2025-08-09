@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="notif_channel_default_name">Genel Bildirimler</string>
+    <string name="notif_channel_default_desc">DFY Genel Bildirim Kanalı</string>
+
+    <string name="email_address">Email Adresi</string>
+    <string name="password">Şifre</string>
+    <string name="login">Giriş</string>
+    <string name="register">Kayıt</string>
+    <string name="go_to_login">Girişe git</string>
+
+    <string name="no_files_found">Henüz yüklenen dosya yok.</string>
+    <string name="uploaded_files">Yüklenen Dosyalar</string>
+    <string name="copy_fcm_token">FCM Token Kopyala</string>
+    <string name="fcm_token_not_found">FCM Token Bulunamadı</string>
+    <string name="fcm_token_copied">FCM Token Kopyalandı</string>
+    <string name="logout">Çıkış yap</string>
+
+    <string name="notification_permission_not_granted">Bildirim izni verilmedi!</string>
+
+</resources>
